@@ -1,5 +1,5 @@
 ---
-name: Build Revenue Docker Image
+name: Build Docker Images
 
 on:
   workflow_dispatch:
@@ -28,5 +28,5 @@ jobs:
       with:
         context: ./base 
         file: ./base/Dockerfile
-        tags: git@github.com:wearewebera/public-images/base:${{ github.sha }}
+        tags: ghcr.io/wearewebera/public-images/base:${{ github.sha }}
         push: true
