@@ -8,7 +8,7 @@ on:
       branches:
         - main
       paths:
-        - base/**
+        - images/base/**
 
 permissions:
     contents: read
