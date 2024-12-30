@@ -8,6 +8,7 @@ on:
       image-path: 
         required: true
         description: 'The path of the image to build'
+        type: string
 
 permissions:
     contents: read
