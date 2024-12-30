@@ -20,4 +20,5 @@ jobs:
     secrets: inherit
     uses: ./.github/workflows/build.yml
     with:
+      image-name: base
       image-path: images/base

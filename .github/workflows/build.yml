@@ -9,6 +9,10 @@ on:
         required: true
         description: 'The path of the image to build'
         type: string
+      image-name:
+        required: true
+        description: 'The name of the image to build'
+        type: string
 
 permissions:
     contents: read
@@ -39,5 +43,5 @@ jobs:
       with:
         context: ./${{ inputs.image-path }}
         platforms: linux/amd64,linux/arm64
-        tags: ghcr.io/wearewebera/public-images/${{ inputs.image-path }}:${{ github.sha }}, ghcr.io/wearewebera/public-images/${{ inputs.image-path }}:latest
+        tags: webera/${{ inputs.image-name }}:${{ github.sha }}, webera/${{ inputs.image-name }}:latest
         push: true
