@@ -1,0 +1,23 @@
+---
+name: Build Base Image
+
+on:
+  workflow_dispatch:
+  workflow_call:
+  push:
+      branches:
+        - main
+      paths:
+        - base/**
+
+permissions:
+    contents: read
+    packages: write
+
+jobs:
+  run-image:
+    name: "Build Base"
+    secrets: inherit
+    uses: ./.github/workflows/build.yml
+    with:
+      image-path: base
