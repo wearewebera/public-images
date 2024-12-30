@@ -16,11 +16,41 @@ jobs:
     secrets: inherit
     uses: ./.github/workflows/image-base.yml
 
-  image-all:
-    strategy:
-      matrix:
-        image: [apache] #, nginx, ssh, php, python, node
-    name: "Build ${{ matrix.image }} Image"
+# Currently, using Matrix for the uses keyword is not supported.
+# We separated each build into its own job.
+
+  image-apache:
+    name: "Build Apache Image"
     needs: "image-base"
     secrets: inherit
-    uses: ./.github/workflows/image-${{ matrix.image }}.yml
+    uses: ./.github/workflows/image-apache.yml
+
+  image-nginx:
+    name: "Build Nginx Image"
+    needs: "image-base"
+    secrets: inherit
+    uses: ./.github/workflows/image-nginx.yml
+
+  image-ssh:
+    name: "Build SSH Image"
+    needs: "image-base"
+    secrets: inherit
+    uses: ./.github/workflows/image-ssh.yml
+
+  image-php:
+    name: "Build PHP Image"
+    needs: "image-base"
+    secrets: inherit
+    uses: ./.github/workflows/image-php.yml
+
+  image-python:
+    name: "Build Python Image"
+    needs: "image-base"
+    secrets: inherit
+    uses: ./.github/workflows/image-python.yml
+
+  image-node:
+    name: "Build Node Image"
+    needs: "image-base"
+    secrets: inherit
+    uses: ./.github/workflows/image-node.yml
