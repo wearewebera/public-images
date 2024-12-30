@@ -25,11 +25,11 @@ jobs:
     secrets: inherit
     uses: ./.github/workflows/image-apache.yml
 
-  # image-nginx:
-  #   name: "Build Nginx Image"
-  #   needs: "image-base"
-  #   secrets: inherit
-  #   uses: ./.github/workflows/image-nginx.yml
+  image-nginx:
+    name: "Build Nginx Image"
+    needs: "image-base"
+    secrets: inherit
+    uses: ./.github/workflows/image-nginx.yml
 
   # image-ssh:
   #   name: "Build SSH Image"
