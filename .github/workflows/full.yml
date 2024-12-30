@@ -12,15 +12,15 @@ permissions:
 
 jobs:
   image-base:
-    name: "Build Base"
+    name: "Build Base Image"
     secrets: inherit
     uses: ./.github/workflows/image-base.yml
 
-  image-apache:
-    name: "Build Apache Image"
+  image-all:
     strategy:
       matrix:
-        image: [apache, php, node]
+        image: [apache] #, nginx, ssh, php, python, node
+    name: "Build ${{ matrix.image }} Image"
     needs: "image-base"
     secrets: inherit
     uses: ./.github/workflows/image-${{ matrix.image }}.yml

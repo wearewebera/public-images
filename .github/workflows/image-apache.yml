@@ -1,0 +1,23 @@
+---
+name: Build Apache Image
+
+on:
+  workflow_dispatch:
+  workflow_call:
+  push:
+      branches:
+        - main
+      paths:
+        - apache/**
+
+permissions:
+    contents: read
+    packages: write
+
+jobs:
+  run-image:
+    name: "Build Apache"
+    secrets: inherit
+    uses: ./.github/workflows/build.yml
+    with:
+      image-path: apache
