@@ -1,0 +1,24 @@
+---
+name: Build PHP Image
+
+on:
+  workflow_dispatch:
+  workflow_call:
+  push:
+      branches:
+        - main
+      paths:
+        - images/php/**
+
+permissions:
+    contents: read
+    packages: write
+
+jobs:
+  run-image:
+    name: "Build PHP"
+    secrets: inherit
+    uses: ./.github/workflows/build.yml
+    with:
+      image-name: php
+      image-path: images/php

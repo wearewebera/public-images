@@ -1,0 +1,24 @@
+---
+name: Build SSH Image
+
+on:
+  workflow_dispatch:
+  workflow_call:
+  push:
+      branches:
+        - main
+      paths:
+        - images/ssh/**
+
+permissions:
+    contents: read
+    packages: write
+
+jobs:
+  run-image:
+    name: "Build SSH"
+    secrets: inherit
+    uses: ./.github/workflows/build.yml
+    with:
+      image-name: ssh
+      image-path: images/ssh

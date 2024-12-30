@@ -1,0 +1,33 @@
+Port 10022
+ListenAddress 0.0.0.0
+
+#HostKey /etc/ssh/ssh_host_rsa_key
+#HostKey /etc/ssh/ssh_host_ecdsa_key
+#HostKey /etc/ssh/ssh_host_ed25519_key
+
+# Logging
+LogLevel INFO
+
+# Authentication:
+
+StrictModes no
+MaxAuthTries 6
+MaxSessions 10
+PubkeyAuthentication yes
+PasswordAuthentication no
+PermitEmptyPasswords no
+ChallengeResponseAuthentication no
+AllowAgentForwarding yes
+AllowTcpForwarding yes
+X11Forwarding yes
+PermitTTY yes
+PrintMotd no
+PrintLastLog yes
+TCPKeepAlive yes
+
+AcceptEnv LANG LC_*
+
+Subsystem	sftp	/usr/lib/openssh/sftp-server
+
+match User user_cloud
+    AuthorizedKeysFile /etc/ssh/authorized_keys

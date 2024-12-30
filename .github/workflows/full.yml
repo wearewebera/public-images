@@ -31,26 +31,26 @@ jobs:
     secrets: inherit
     uses: ./.github/workflows/image-nginx.yml
 
-  # image-ssh:
-  #   name: "Build SSH Image"
-  #   needs: "image-base"
-  #   secrets: inherit
-  #   uses: ./.github/workflows/image-ssh.yml
+  image-ssh:
+    name: "Build SSH Image"
+    needs: "image-base"
+    secrets: inherit
+    uses: ./.github/workflows/image-ssh.yml
 
-  # image-php:
-  #   name: "Build PHP Image"
-  #   needs: "image-base"
-  #   secrets: inherit
-  #   uses: ./.github/workflows/image-php.yml
+  image-php:
+    name: "Build PHP Image"
+    needs: "image-base"
+    secrets: inherit
+    uses: ./.github/workflows/image-php.yml
 
-  # image-python:
-  #   name: "Build Python Image"
-  #   needs: "image-base"
-  #   secrets: inherit
-  #   uses: ./.github/workflows/image-python.yml
+  image-python:
+    name: "Build Python Image"
+    needs: "image-base"
+    secrets: inherit
+    uses: ./.github/workflows/image-python.yml
 
-  # image-node:
-  #   name: "Build Node Image"
-  #   needs: "image-base"
-  #   secrets: inherit
-  #   uses: ./.github/workflows/image-node.yml
+  image-node:
+    name: "Build Node Image"
+    needs: "image-base"
+    secrets: inherit
+    uses: ./.github/workflows/image-node.yml
