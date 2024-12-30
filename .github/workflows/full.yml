@@ -1,0 +1,26 @@
+---
+name: Build All Images
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 1'
+
+permissions:
+    contents: read
+    packages: write
+
+jobs:
+  image-base:
+    name: "Build Base"
+    secrets: inherit
+    uses: ./.github/workflows/image-base.yml
+
+  image-apache:
+    name: "Build Apache Image"
+    strategy:
+      matrix:
+        image: [apache, php, node]
+    needs: "image-base"
+    secrets: inherit
+    uses: ./.github/workflows/image-${{ matrix.image }}.yml
