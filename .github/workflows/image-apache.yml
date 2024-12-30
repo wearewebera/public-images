@@ -20,4 +20,4 @@ jobs:
     secrets: inherit
     uses: ./.github/workflows/build.yml
     with:
-      image-path: apache
+      image-path: images/apache

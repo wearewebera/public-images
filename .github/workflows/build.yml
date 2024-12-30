@@ -38,7 +38,7 @@ jobs:
     - name: Build and push Docker images
       uses: docker/build-push-action@v6
       with:
-        context: ./${{ inputs.image-path }}
+        context: .${{ inputs.image-path }}
         platforms: linux/amd64,linux/arm64
-        tags: ghcr.io/wearewebera/public-images/images/${{ inputs.image-path }}:${{ github.sha }}, ghcr.io/wearewebera/public-images/images/${{ inputs.image-path }}:latest
+        tags: ghcr.io/wearewebera/public-images/${{ inputs.image-path }}:${{ github.sha }}, ghcr.io/wearewebera/public-images/${{ inputs.image-path }}:latest
         push: true
