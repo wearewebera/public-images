@@ -3,6 +3,8 @@ FROM webera/base
 RUN apt update && \
     apt install -y software-properties-common \
                    python3-pip \
+                   python3-venv \  # Adds support for virtual environments
+                   python3-full \  # Ensures a complete Python installation
                    curl
 
 # Install Poetry
