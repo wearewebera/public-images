@@ -4,9 +4,7 @@ RUN apt update && \
     apt install -y software-properties-common \
                    python3 \
                    python3-pip \
-                   python3-venv \  # Adds support for virtual environments
-                   python3-dev \   # Provides headers for compiling Python packages
-                   build-essential \ # Tools for compiling native extensions
+                   python3-venv \
                    curl
 
 # Install Poetry
