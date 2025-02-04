@@ -53,4 +53,4 @@ jobs:
     name: "Build Node Image"
     needs: "image-base"
     secrets: inherit
-    uses: ./.github/workflows/image-node.yml
+    uses: ./.github/workflows/image-nodejs.yml
