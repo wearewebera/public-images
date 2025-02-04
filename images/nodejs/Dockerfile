@@ -9,3 +9,6 @@ RUN apt update && \
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 
 RUN source /root/.bashrc && nvm install $NODE_VERSION
+
+ENV NVM_DIR="/root/.nvm"
+ENV PATH="$NVM_DIR/versions/node/v20.18.2/bin:$PATH"
