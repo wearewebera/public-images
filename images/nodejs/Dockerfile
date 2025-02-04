@@ -12,3 +12,4 @@ RUN source /root/.bashrc && nvm install $NODE_VERSION
 
 ENV NVM_DIR="/root/.nvm"
 ENV PATH="$NVM_DIR/versions/node/v20.18.2/bin:$PATH"
+ 

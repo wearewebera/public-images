@@ -1,5 +1,5 @@
 ---
-name: Build Node Image
+name: Build Nodejs Image
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ on:
       branches:
         - main
       paths:
-        - images/node/**
+        - images/nodejs/**
 
 permissions:
     contents: read
@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   run-image:
-    name: "Build Node"
+    name: "Build Nodejs"
     secrets: inherit
     uses: ./.github/workflows/build.yml
     with:
