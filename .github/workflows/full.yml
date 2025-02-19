@@ -54,3 +54,9 @@ jobs:
     needs: "image-base"
     secrets: inherit
     uses: ./.github/workflows/image-nodejs.yml
+
+  image-wireguard-client:
+    name: "Build WireGuard Client Image"
+    needs: "image-base"
+    secrets: inherit
+    uses: ./.github/workflows/image-wireguard-client.yml
