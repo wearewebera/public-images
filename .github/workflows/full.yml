@@ -60,3 +60,33 @@ jobs:
     needs: "image-base"
     secrets: inherit
     uses: ./.github/workflows/image-wireguard-client.yml
+
+  image-go:
+    name: "Build Go Image"
+    needs: "image-base"
+    secrets: inherit
+    uses: ./.github/workflows/image-go.yml
+
+  image-ruby:
+    name: "Build Ruby Image"
+    needs: "image-base"
+    secrets: inherit
+    uses: ./.github/workflows/image-ruby.yml
+
+  image-java:
+    name: "Build Java Image"
+    needs: "image-base"
+    secrets: inherit
+    uses: ./.github/workflows/image-java.yml
+
+  image-postgres-client:
+    name: "Build PostgreSQL Client Image"
+    needs: "image-base"
+    secrets: inherit
+    uses: ./.github/workflows/image-postgres-client.yml
+
+  image-mysql-client:
+    name: "Build MySQL Client Image"
+    needs: "image-base"
+    secrets: inherit
+    uses: ./.github/workflows/image-mysql-client.yml

@@ -38,10 +38,42 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
+    - name: Extract metadata
+      id: meta
+      run: |
+        # Get Ubuntu version from base image or use default
+        if [ "${{ inputs.image-name }}" = "base" ]; then
+          UBUNTU_VERSION="24.04"
+        else
+          UBUNTU_VERSION=$(grep -E "^FROM ubuntu:" ./${{ inputs.image-path }}/Dockerfile | cut -d: -f2 || echo "24.04")
+        fi
+        echo "ubuntu_version=${UBUNTU_VERSION}" >> $GITHUB_OUTPUT
+        
+        # Get software version if applicable
+        case "${{ inputs.image-name }}" in
+          php)
+            SOFTWARE_VERSION=$(docker run --rm webera/${{ inputs.image-name }}:latest php -v | head -1 | cut -d' ' -f2 | cut -d'.' -f1,2)
+            ;;
+          nodejs)
+            SOFTWARE_VERSION=$(grep "ARG NODE_VERSION=" ./${{ inputs.image-path }}/Dockerfile | cut -d= -f2 || echo "20")
+            ;;
+          python)
+            SOFTWARE_VERSION="3"
+            ;;
+          *)
+            SOFTWARE_VERSION=""
+            ;;
+        esac
+        echo "software_version=${SOFTWARE_VERSION}" >> $GITHUB_OUTPUT
+
     - name: Build and push Docker images
       uses: docker/build-push-action@v6
       with:
         context: ./${{ inputs.image-path }}
         platforms: linux/amd64,linux/arm64
-        tags: webera/${{ inputs.image-name }}:${{ github.sha }}, webera/${{ inputs.image-name }}:latest
+        tags: |
+          webera/${{ inputs.image-name }}:latest
+          webera/${{ inputs.image-name }}:${{ github.sha }}
+          webera/${{ inputs.image-name }}:ubuntu-${{ steps.meta.outputs.ubuntu_version }}
+          ${{ steps.meta.outputs.software_version != '' && format('webera/{0}:{1}-ubuntu-{2}', inputs.image-name, steps.meta.outputs.software_version, steps.meta.outputs.ubuntu_version) || '' }}
         push: true
