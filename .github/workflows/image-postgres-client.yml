@@ -1,0 +1,15 @@
+---
+name: Build PostgreSQL Client Image
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build:
+    name: 'Build and Push PostgreSQL Client Image'
+    secrets: inherit
+    uses: ./.github/workflows/build.yml
+    with:
+      image-path: images/postgres-client
+      image-name: postgres-client

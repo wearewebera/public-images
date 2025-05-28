@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    image: webera/python:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/workspace
+    working_dir: /workspace
+    command: python -m http.server 8000
+    networks:
+      - webera-network
+
+  # Example with Poetry
+  poetry-app:
+    image: webera/python:latest
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./poetry-app:/workspace
+    working_dir: /workspace
+    command: poetry run python app.py
+    networks:
+      - webera-network
+
+networks:
+  webera-network:
+    driver: bridge

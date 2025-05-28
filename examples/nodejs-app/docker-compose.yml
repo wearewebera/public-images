@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  app:
+    image: webera/nodejs:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+    working_dir: /app
+    command: npm start
+    networks:
+      - webera-network
+
+networks:
+  webera-network:
+    driver: bridge

@@ -1,0 +1,15 @@
+---
+name: Build MySQL Client Image
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build:
+    name: 'Build and Push MySQL Client Image'
+    secrets: inherit
+    uses: ./.github/workflows/build.yml
+    with:
+      image-path: images/mysql-client
+      image-name: mysql-client

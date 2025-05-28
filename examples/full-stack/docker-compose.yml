@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # Nginx reverse proxy
+  nginx:
+    image: webera/nginx:latest
+    ports:
+      - "80:8080"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/sites-available/default:ro
+    depends_on:
+      - php
+      - nodejs
+    networks:
+      - webera-network
+
+  # PHP application
+  php:
+    image: webera/php:latest
+    volumes:
+      - ./php-app:/var/www/public_html
+    networks:
+      - webera-network
+
+  # Node.js API
+  nodejs:
+    image: webera/nodejs:latest
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    volumes:
+      - ./node-api:/app
+    working_dir: /app
+    command: npm start
+    networks:
+      - webera-network
+
+  # Python microservice
+  python:
+    image: webera/python:latest
+    volumes:
+      - ./python-service:/workspace
+    working_dir: /workspace
+    command: python service.py
+    networks:
+      - webera-network
+
+  # SSH access for development
+  ssh:
+    image: webera/ssh:latest
+    ports:
+      - "2222:10022"
+    volumes:
+      - ./:/workspace
+    networks:
+      - webera-network
+
+networks:
+  webera-network:
+    driver: bridge
