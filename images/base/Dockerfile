@@ -13,8 +13,8 @@ RUN apt-get update \
   && apt-get dist-upgrade -y \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
-  && groupadd -g 1000 webera \
-  && useradd -u 1000 -g webera -s /bin/bash -m webera
+  && (groupadd -g 1000 webera 2>/dev/null || groupadd webera) \
+  && (useradd -u 1000 -g webera -s /bin/bash -m webera 2>/dev/null || useradd -g webera -s /bin/bash -m webera)
 
 # Set security options
 RUN echo "Acquire::http::Pipeline-Depth 0;" > /etc/apt/apt.conf.d/99fixbadproxy \
