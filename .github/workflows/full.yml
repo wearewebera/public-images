@@ -90,3 +90,8 @@ jobs:
     needs: "image-base"
     secrets: inherit
     uses: ./.github/workflows/image-mysql-client.yml
+
+  image-ollama:
+    name: "Build Ollama Image"
+    secrets: inherit
+    uses: ./.github/workflows/image-ollama.yml

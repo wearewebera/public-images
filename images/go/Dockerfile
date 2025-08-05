@@ -1,6 +1,6 @@
 FROM webera/base
 
-ARG GO_VERSION=1.21
+ARG GO_VERSION=1.24.5
 
 # Install Go in a single layer
 RUN apt-get update && \
@@ -8,7 +8,9 @@ RUN apt-get update && \
         wget \
         git \
         build-essential && \
-    wget -q -O go.tar.gz https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz && \
+    ARCH=$(dpkg --print-architecture) && \
+    if [ "$ARCH" = "amd64" ]; then ARCH="amd64"; elif [ "$ARCH" = "arm64" ]; then ARCH="arm64"; fi && \
+    wget -q -O go.tar.gz https://go.dev/dl/go${GO_VERSION}.linux-${ARCH}.tar.gz && \
     tar -C /usr/local -xzf go.tar.gz && \
     rm go.tar.gz && \
     apt-get clean && \

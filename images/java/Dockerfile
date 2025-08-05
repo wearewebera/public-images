@@ -12,9 +12,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Set environment variables
-ENV JAVA_HOME="/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-amd64" \
-    PATH="$JAVA_HOME/bin:$PATH" \
-    MAVEN_HOME="/usr/share/maven" \
+ENV MAVEN_HOME="/usr/share/maven" \
     GRADLE_HOME="/usr/share/gradle"
 
 # Add health check
