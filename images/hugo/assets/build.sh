@@ -109,8 +109,7 @@ rm -rf awscliv2.zip aws/
 #
 echo "Installing deployment tools..."
 python3 -m pip install --no-cache-dir --break-system-packages \
-    s3cmd \
-    azure-cli
+    s3cmd
 
 #
 # Install GitHub CLI

@@ -1,0 +1,192 @@
+\documentclass[$fontsize$, $papersize$]{article}
+
+% Package imports
+\usepackage[$geometry$]{geometry}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{parskip}
+\usepackage{tocloft}
+
+% Font settings
+\setmainfont{Liberation Serif}
+\setsansfont{Liberation Sans}
+\setmonofont{Liberation Mono}
+
+% Color definitions
+\definecolor{linkcolor}{RGB}{0,102,204}
+\definecolor{codebackground}{RGB}{248,248,248}
+\definecolor{codeborder}{RGB}{204,204,204}
+
+% Hyperlink setup
+\hypersetup{
+    colorlinks=$if(colorlinks)$$colorlinks$$else$true$endif$,
+    linkcolor=$if(linkcolor)$$linkcolor$$else$linkcolor$endif$,
+    urlcolor=$if(urlcolor)$$urlcolor$$else$linkcolor$endif$,
+    citecolor=$if(citecolor)$$citecolor$$else$linkcolor$endif$,
+    toccolor=$if(toccolor)$$toccolor$$else$black$endif$,
+    pdftitle={$if(title)$$title$$endif$},
+    pdfauthor={$if(author)$$author$$endif$},
+    pdfsubject={$if(subject)$$subject$$endif$},
+    pdfkeywords={$if(keywords)$$keywords$$endif$}
+}
+
+% Section formatting
+\titleformat{\section}
+    {\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}
+    {\normalfont\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+    {\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+% Header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\leftmark}
+\fancyhead[R]{\small $if(title)$$title$$endif$}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% First page style
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyfoot[C]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
+}
+
+% Line spacing
+\setstretch{1.15}
+
+% Paragraph settings
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{10pt}
+
+% List settings
+\setlist[itemize]{noitemsep, topsep=5pt}
+\setlist[enumerate]{noitemsep, topsep=5pt}
+
+% Code listing settings
+\lstset{
+    backgroundcolor=\color{codebackground},
+    basicstyle=\small\ttfamily,
+    breaklines=true,
+    captionpos=b,
+    frame=single,
+    frameround=tttt,
+    rulecolor=\color{codeborder},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=8pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+    escapeinside={(*@}{@*)}
+}
+
+% Table settings
+\renewcommand{\arraystretch}{1.2}
+\captionsetup[table]{position=top}
+\captionsetup[figure]{position=bottom}
+
+% Custom title command
+\makeatletter
+\renewcommand{\maketitle}{
+    \begin{center}
+        % Logo
+        $if(logo)$
+        \includegraphics[width=2in]{$logo$}
+        \vspace{0.5cm}
+        $endif$
+        
+        % Title
+        {\LARGE\bfseries $title$\par}
+        
+        % Subtitle
+        $if(subtitle)$
+        \vspace{0.5cm}
+        {\large $subtitle$\par}
+        $endif$
+        
+        % Author
+        $if(author)$
+        \vspace{1cm}
+        {\large $author$\par}
+        $endif$
+        
+        % Date
+        \vspace{0.5cm}
+        $if(date)$
+        $date$
+        $else$
+        \today
+        $endif$
+    \end{center}
+    \vspace{1cm}
+}
+\makeatother
+
+% Table of contents depth
+\setcounter{tocdepth}{$if(toc-depth)$$toc-depth$$else$3$endif$}
+
+% Document starts here
+\begin{document}
+
+% Title page
+$if(title)$
+\maketitle
+\thispagestyle{plain}
+$endif$
+
+% Abstract
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+\clearpage
+$endif$
+
+% Table of contents
+$if(toc)$
+\tableofcontents
+\clearpage
+$endif$
+
+% List of figures
+$if(lof)$
+\listoffigures
+\clearpage
+$endif$
+
+% List of tables
+$if(lot)$
+\listoftables
+\clearpage
+$endif$
+
+% Main content
+$body$
+
+% Bibliography
+$if(bibliography)$
+\bibliographystyle{$if(biblio-style)$$biblio-style$$else$plain$endif$}
+\bibliography{$bibliography$}
+$endif$
+
+\end{document}

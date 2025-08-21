@@ -1,0 +1,25 @@
+name: Build md2pdf
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'images/md2pdf/**'
+      - '.github/workflows/build-md2pdf.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'images/md2pdf/**'
+      - '.github/workflows/build-md2pdf.yml'
+  schedule:
+    - cron: '0 3 * * 1'  # Weekly on Monday at 3 AM UTC
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-image.yml
+    with:
+      image_name: md2pdf
+      context: ./images/md2pdf
+      platforms: linux/amd64,linux/arm64
+    secrets: inherit

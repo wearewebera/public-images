@@ -1,0 +1,221 @@
+\documentclass[$fontsize$, $papersize$]{article}
+
+% Package imports
+\usepackage[top=1.25in, bottom=1.25in, left=1.5in, right=1in]{geometry}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{parskip}
+\usepackage{ulem}
+\usepackage{lastpage}
+\usepackage{array}
+\usepackage{tabularx}
+
+% Font settings
+\setmainfont{Liberation Serif}
+\setsansfont{Liberation Sans}
+\setmonofont{Liberation Mono}
+
+% Color definitions
+\definecolor{sectioncolor}{RGB}{0,0,0}
+\definecolor{linkcolor}{RGB}{0,0,139}
+
+% Hyperlink setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=linkcolor,
+    urlcolor=linkcolor,
+    pdftitle={$title$},
+    pdfauthor={$author$}
+}
+
+% Section formatting with automatic numbering
+\titleformat{\section}
+    {\normalfont\large\bfseries\centering\MakeUppercase}
+    {ARTICLE \thesection.}{0.5em}{}
+    
+\titleformat{\subsection}
+    {\normalfont\normalsize\bfseries}
+    {\thesubsection.}{0.5em}{}
+    
+\titleformat{\subsubsection}
+    {\normalfont\normalsize\itshape}
+    {(\alph{subsubsection})}{0.5em}{}
+
+% Counter settings for legal numbering
+\renewcommand{\thesection}{\Roman{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\thesubsection.\alph{subsubsection}}
+
+% Header and footer setup
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{\small\textit{$if(contract-number)$Contract No. $contract-number$$endif$}}
+\fancyfoot[C]{Page \thepage\ of \pageref{LastPage}}
+\fancyfoot[L]{\small\textit{$if(footer-left)$$footer-left$$endif$}}
+\fancyfoot[R]{\small\textit{$if(footer-right)$$footer-right$$endif$}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Line spacing
+\setstretch{1.5}
+
+% Paragraph settings
+\setlength{\parindent}{0.5in}
+\setlength{\parskip}{6pt}
+
+% Custom commands
+\newcommand{\party}[2]{
+    \noindent\textbf{#1} (``#2'')
+}
+
+\newcommand{\signature}[4]{
+    \vspace{2em}
+    \noindent
+    \begin{tabularx}{\textwidth}{X X}
+        \textbf{#1} & \textbf{#2} \\[3em]
+        \hrulefill & \hrulefill \\
+        Signature & Signature \\[1em]
+        \hrulefill & \hrulefill \\
+        Print Name: #3 & Print Name: #4 \\[1em]
+        \hrulefill & \hrulefill \\
+        Title: & Title: \\[1em]
+        \hrulefill & \hrulefill \\
+        Date: & Date: \\
+    \end{tabularx}
+}
+
+\newcommand{\witnessline}{
+    \vspace{1em}
+    \noindent
+    \begin{tabularx}{\textwidth}{X}
+        \textbf{WITNESS:} \\[2em]
+        \hrulefill \\
+        Signature \\[1em]
+        \hrulefill \\
+        Print Name \\[1em]
+        \hrulefill \\
+        Date \\
+    \end{tabularx}
+}
+
+% Lists with legal formatting
+\setlist[enumerate,1]{label=\arabic*., leftmargin=0.75in, parsep=6pt}
+\setlist[enumerate,2]{label=\alph*., leftmargin=1in, parsep=3pt}
+\setlist[enumerate,3]{label=\roman*., leftmargin=1.25in, parsep=3pt}
+
+% Document starts here
+\begin{document}
+
+% Title section
+\begin{center}
+    {\LARGE\bfseries $title$}
+    
+    $if(subtitle)$
+    \vspace{0.5em}
+    {\large $subtitle$}
+    $endif$
+    
+    $if(effective-date)$
+    \vspace{1em}
+    Effective Date: $effective-date$
+    $endif$
+\end{center}
+
+\vspace{2em}
+
+% Parties section
+$if(parties)$
+\noindent\textbf{PARTIES}
+
+\vspace{1em}
+
+This Agreement is entered into as of $if(date)$$date$$else$\underline{\hspace{2in}}$endif$ (the ``Effective Date''), by and between:
+
+\vspace{1em}
+
+$for(parties)$
+\party{$parties.name$}{$parties.designation$}, $parties.description$
+
+$endfor$
+
+\vspace{1em}
+
+(each a ``Party'' and collectively the ``Parties'').
+
+\vspace{2em}
+$endif$
+
+% Recitals
+$if(recitals)$
+\begin{center}
+    \textbf{RECITALS}
+\end{center}
+
+$recitals$
+
+\vspace{1em}
+
+NOW, THEREFORE, in consideration of the mutual covenants and agreements hereinafter set forth and for other good and valuable consideration, the receipt and sufficiency of which are hereby acknowledged, the Parties agree as follows:
+
+\vspace{2em}
+$endif$
+
+% Main content
+$body$
+
+% Signature section
+\vspace{3em}
+
+\begin{center}
+    \textbf{IN WITNESS WHEREOF}, the Parties have executed this Agreement as of the date first written above.
+\end{center}
+
+\vspace{2em}
+
+$if(party1-name)$
+$if(party2-name)$
+\signature{$party1-name$}{$party2-name$}{$if(party1-signatory)$$party1-signatory$$endif$}{$if(party2-signatory)$$party2-signatory$$endif$}
+$endif$
+$endif$
+
+% Witness lines (if needed)
+$if(witnesses)$
+\vspace{2em}
+\begin{center}
+    \textbf{WITNESSES}
+\end{center}
+
+\witnessline
+\witnessline
+$endif$
+
+% Notary section (if needed)
+$if(notary)$
+\vspace{3em}
+\begin{center}
+    \textbf{NOTARY ACKNOWLEDGMENT}
+\end{center}
+
+\noindent
+State of \underline{\hspace{1.5in}} \\
+County of \underline{\hspace{1.5in}}
+
+\vspace{1em}
+
+On this \underline{\hspace{0.5in}} day of \underline{\hspace{1in}}, 20\underline{\hspace{0.3in}}, before me personally appeared \underline{\hspace{2in}}, who proved to me on the basis of satisfactory evidence to be the person(s) whose name(s) is/are subscribed to the within instrument and acknowledged to me that he/she/they executed the same in his/her/their authorized capacity(ies), and that by his/her/their signature(s) on the instrument the person(s), or the entity upon behalf of which the person(s) acted, executed the instrument.
+
+\vspace{2em}
+
+\noindent
+\underline{\hspace{3in}} \\
+Notary Public \\
+My Commission Expires: \underline{\hspace{1.5in}}
+$endif$
+
+\end{document}
