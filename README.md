@@ -27,6 +27,7 @@ docker-compose up -d
 | `webera/php` | PHP-FPM with common extensions | ~200MB | 9000 |
 | `webera/nodejs` | Node.js LTS runtime | ~180MB | 3000 |
 | `webera/python` | Python 3 with Poetry | ~220MB | - |
+| `webera/hugo` | Hugo Extended with Go & Dart Sass | ~450MB | 1313 |
 | `webera/ssh` | SSH server with restricted commands | ~120MB | 10022 |
 | `webera/wireguard-client` | WireGuard VPN client | ~100MB | - |
 | `webera/ollama` | Ollama with qwen2.5-coder model | ~5GB | 11434 |
@@ -84,6 +85,49 @@ docker run -it \
   poetry install
 ```
 
+### Hugo Static Site
+
+```bash
+# Local development server
+docker run -d \
+  -p 1313:1313 \
+  -v $(pwd):/site \
+  webera/hugo:latest \
+  hugo server --bind 0.0.0.0
+
+# Build for production
+docker run --rm \
+  -v $(pwd):/site \
+  webera/hugo:latest \
+  hugo --minify
+```
+
+### Hugo in GitHub Actions
+
+```yaml
+name: Build Hugo Site
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: 
+      image: webera/hugo:latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # For .GitInfo and .Lastmod
+          
+      - name: Build site
+        run: hugo --minify
+        
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: public
+          path: public/
+```
+
 ## 🔧 Environment Variables
 
 ### Apache (`webera/apache`)
@@ -100,6 +144,11 @@ docker run -it \
 ### Node.js (`webera/nodejs`)
 - `NODE_ENV`: Environment (default: production)
 - `PORT`: Application port (default: 3000)
+
+### Hugo (`webera/hugo`)
+- `HUGO_ENVIRONMENT`: Build environment (default: production)
+- `HUGO_CACHEDIR`: Cache directory (default: /tmp/hugo_cache)
+- `PORT`: Server port (default: 1313)
 
 ## 🏷️ Versioning
 

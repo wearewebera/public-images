@@ -67,6 +67,12 @@ jobs:
     secrets: inherit
     uses: ./.github/workflows/image-go.yml
 
+  image-hugo:
+    name: "Build Hugo Image"
+    needs: "image-base"
+    secrets: inherit
+    uses: ./.github/workflows/image-hugo.yml
+
   image-ruby:
     name: "Build Ruby Image"
     needs: "image-base"

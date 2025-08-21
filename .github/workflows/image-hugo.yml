@@ -1,0 +1,24 @@
+---
+name: Build Hugo Image
+
+on:
+  workflow_dispatch:
+  workflow_call:
+  push:
+      branches:
+        - main
+      paths:
+        - images/hugo/**
+
+permissions:
+    contents: read
+    packages: write
+
+jobs:
+  run-image:
+    name: "Build Hugo"
+    secrets: inherit
+    uses: ./.github/workflows/build.yml
+    with:
+      image-name: hugo
+      image-path: images/hugo
