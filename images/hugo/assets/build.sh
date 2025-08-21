@@ -33,7 +33,14 @@ apt-get install -y --no-install-recommends \
     build-essential \
     openssh-client \
     tar \
-    gzip
+    gzip \
+    rsync \
+    jq \
+    zip \
+    unzip \
+    python3 \
+    python3-pip \
+    python3-venv
 
 #
 # Install Go
@@ -80,6 +87,41 @@ rm -rf dart-sass.tar.gz
 /usr/local/bin/sass --version
 
 #
+# Install AWS CLI v2
+#
+echo "Installing AWS CLI v2..."
+if [ "$ARCH" = "amd64" ]; then
+    AWS_CLI_ARCH="x86_64"
+elif [ "$ARCH" = "arm64" ]; then
+    AWS_CLI_ARCH="aarch64"
+fi
+
+curl -sL "https://awscli.amazonaws.com/awscli-exe-linux-${AWS_CLI_ARCH}.zip" -o "awscliv2.zip"
+unzip -q awscliv2.zip
+./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli
+rm -rf awscliv2.zip aws/
+
+# Verify AWS CLI installation
+/usr/local/bin/aws --version
+
+#
+# Install other deployment tools via pip
+#
+echo "Installing deployment tools..."
+python3 -m pip install --no-cache-dir --break-system-packages \
+    s3cmd \
+    azure-cli
+
+#
+# Install GitHub CLI
+#
+echo "Installing GitHub CLI..."
+curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+apt-get update
+apt-get install -y gh
+
+#
 # Configure Git for CI environments
 #
 git config --global --add safe.directory '*'
@@ -97,3 +139,6 @@ echo "- Hugo Extended: $(hugo version)"
 echo "- Go: $(go version)"
 echo "- Git: $(git --version)"
 echo "- Dart Sass: $(sass --version)"
+echo "- AWS CLI: $(aws --version)"
+echo "- GitHub CLI: $(gh --version)"
+echo "- rsync: $(rsync --version | head -1)"

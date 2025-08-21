@@ -27,7 +27,7 @@ docker-compose up -d
 | `webera/php` | PHP-FPM with common extensions | ~200MB | 9000 |
 | `webera/nodejs` | Node.js LTS runtime | ~180MB | 3000 |
 | `webera/python` | Python 3 with Poetry | ~220MB | - |
-| `webera/hugo` | Hugo Extended with Go & Dart Sass | ~450MB | 1313 |
+| `webera/hugo` | Hugo Extended + Go + Dart Sass + AWS CLI | ~600MB | 1313 |
 | `webera/ssh` | SSH server with restricted commands | ~120MB | 10022 |
 | `webera/wireguard-client` | WireGuard VPN client | ~100MB | - |
 | `webera/ollama` | Ollama with qwen2.5-coder model | ~5GB | 11434 |
@@ -126,6 +126,66 @@ jobs:
         with:
           name: public
           path: public/
+```
+
+### Hugo with S3 Deployment
+
+```yaml
+name: Deploy Hugo to S3
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    container: 
+      image: webera/hugo:latest
+    steps:
+      - uses: actions/checkout@v4
+        
+      - name: Build site
+        run: hugo --minify
+        
+      - name: Deploy to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 sync public/ s3://your-bucket-name/ --delete
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_ID }} --paths "/*"
+```
+
+### Hugo with GitHub Pages
+
+```yaml
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    container: 
+      image: webera/hugo:latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Build site
+        run: hugo --minify --baseURL https://username.github.io/repo-name/
+        
+      - name: Deploy to GitHub Pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd public
+          git init
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Deploy to GitHub Pages"
+          git push -f https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git HEAD:gh-pages
 ```
 
 ## 🔧 Environment Variables
