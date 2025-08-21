@@ -70,10 +70,11 @@ elif [ "$ARCH" = "arm64" ]; then
 fi
 
 wget -q -O dart-sass.tar.gz "$DART_SASS_URL"
-tar -C /tmp -xzf dart-sass.tar.gz
-mv /tmp/dart-sass/sass /usr/local/bin/sass
-chmod +x /usr/local/bin/sass
-rm -rf dart-sass.tar.gz /tmp/dart-sass
+tar -C /usr/local -xzf dart-sass.tar.gz
+# Keep the entire dart-sass directory structure intact
+chmod +x /usr/local/dart-sass/sass
+ln -s /usr/local/dart-sass/sass /usr/local/bin/sass
+rm -rf dart-sass.tar.gz
 
 # Verify Dart Sass installation
 /usr/local/bin/sass --version

@@ -8,8 +8,7 @@ ARG DART_SASS_VERSION=1.83.0
 COPY assets /tmp/assets
 
 # Install everything in a single layer for smaller image size  
-RUN ls -la /tmp/assets/ && \
-    HUGO_VERSION=${HUGO_VERSION} GO_VERSION=${GO_VERSION} DART_SASS_VERSION=${DART_SASS_VERSION} \
+RUN HUGO_VERSION=${HUGO_VERSION} GO_VERSION=${GO_VERSION} DART_SASS_VERSION=${DART_SASS_VERSION} \
     chmod +x /tmp/assets/build.sh && \
     /tmp/assets/build.sh && \
     rm -rf /tmp/assets
