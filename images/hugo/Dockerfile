@@ -8,7 +8,7 @@ ARG DART_SASS_VERSION=1.83.0
 COPY assets /tmp/assets
 
 # Install everything in a single layer for smaller image size
-RUN chmod +x /tmp/assets/build.sh && bash /tmp/assets/build.sh && rm -rf /tmp/assets
+RUN chmod +x /tmp/assets/build.sh && /bin/sh /tmp/assets/build.sh && rm -rf /tmp/assets
 
 # Set environment variables for Hugo and Go
 ENV HUGO_CACHEDIR=/tmp/hugo_cache \
