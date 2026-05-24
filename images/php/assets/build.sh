@@ -41,7 +41,7 @@ sed -i 's/^;pm.status_path/pm.status_path/' ${php_fpm_www}
 sed -i 's@^;access\.log.*@access.log = /proc/self/fd/1@' ${php_fpm_www}
 sed -i 's@^;clear_env = no@clear_env = no@' ${php_fpm_www}
 echo catch_workers_output = yes >> ${php_fpm_www}
-echo php_flag[display_errors] = off >> ${php_fpm_www}
+echo php_admin_flag[display_errors] = off >> ${php_fpm_www}
 echo php_admin_flag[log_errors] = on >> ${php_fpm_www}
 echo php_admin_value[error_log] = /proc/self/fd/2 >> ${php_fpm_www}
 
