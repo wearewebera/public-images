@@ -4,11 +4,24 @@
 # Install packages
 #
 apt-get update
+apt-get dist-upgrade -y
 apt-get install -y --no-install-recommends \
         ca-certificates less vim curl git wget libfcgi-bin \
         php-fpm php-common php-mysql php-xmlrpc php-curl php-gd \
         php-imagick php-dev php-imap php-mbstring php-soap php-zip \
         php-bcmath php-xml php-intl php-cli
+
+# PHP2Shell (CVE-2026-109618, CVE-2026-109619): fixed in 8.3.6-0ubuntu0.24.04.13
+# (USN-8948-1). Fail the build rather than ship a vulnerable php-fpm.
+min_php=8.3.6-0ubuntu0.24.04.13
+for pkg in php8.3-fpm php8.3-cli php8.3-common; do
+    have=$(dpkg-query -W -f='${Version}' "$pkg")
+    if ! dpkg --compare-versions "$have" ge "$min_php"; then
+        echo "ERROR: $pkg $have is older than $min_php" >&2
+        exit 1
+    fi
+done
+
 apt-get clean
 rm -rf /var/lib/apt/lists/*
 
